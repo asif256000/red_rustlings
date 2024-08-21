@@ -24,10 +24,26 @@ enum Command {
 }
 
 mod my_module {
+    use std::ops::Add;
+
     use super::Command;
 
     // TODO: Complete the function.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        let mut result: Vec<String> = Vec::new();
+        for ip in input {
+            match ip.1 {
+                Command::Uppercase => result.push(ip.0.to_uppercase()),
+                Command::Trim => result.push(ip.0.trim().to_string()),
+                Command::Append(rep) => result.push([ip.0, "bar".to_string().repeat(rep)].concat()),
+                // Command::Append(rep) => result.push(ip.0 + &"bar".to_string().repeat(rep)),
+                // Command::Append(rep) => {
+                //     result.push(String::add(ip.0, &"bar".to_string().repeat(rep)).to_string())
+                // }
+            }
+        }
+        result
+    }
 }
 
 fn main() {
@@ -37,7 +53,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
